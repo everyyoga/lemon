@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="./images/lemon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Components | Lemon</title>
+    <link rel="stylesheet" href="./style.css" />
+
+  </head>
+  <body style="text-align:center;padding:90px;">
+    <div id="menu"></div>
+
+    <h2>2 Functions for Components: load & render</h2>
+<p>LemonComponents fetches pure html & css components.</p>
+
+<button id="btnLoad">Load</button>
+
+
+	<div id="loginform"></div>
+
+
+    <h4><img src="./images/lemon.png" style="height:30px;margin: -9px 3px;"> Lemon object in the background:</h4>
+    <div id="lemondebug"></div>
+
+<script src="./lemon.js"></script>
+<script>
+document.body.style="display:none;"; // show body after fully loaded
+
+LemonComponents.load({"./components/":['loginform','menu']}).then( (components) => {
+
+	// render pure HTML/CSS Components
+  Lemon.render("#menu",components.menu);
+	console.log("components from promise",components);
+
+  // watch for changes to the Lemon object to debug
+  Lemon.watch("this",(val) => {
+    console.log("Lemon changed :)");
+    const copy = JSON.parse(JSON.stringify(val));
+    delete copy['watchers'];
+    document.querySelector("#lemondebug").innerHTML = JSON.stringify(copy);
+  });
+
+  // show body after loaded
+  document.body.style="text-align:center;padding:90px;display:auto;";
+
+
+  // load demo button
+  document.querySelector("#btnLoad").addEventListener('click',() => {
+    Lemon.render("#loginform",components.loginform);
+
+    // react to changes in UI
+  	Lemon.react({
+  	  inputs: {
+  	    "#title2":"title",
+  	    "#username":"loginForm.username",
+  	    "#password":"loginForm.password"
+  	  }
+  	});
+
+
+  	// Use regular JavaScript to handle events rather than framework specific
+  	document.querySelector("#btnLogin").addEventListener("click",() => {
+  	    alert("Trying to login " + Lemon.loginForm.username + " with password " + Lemon.loginForm.password);
+  	});
+
+  	// initiate your properties
+  	Lemon.loginForm = {'username':'','password':''};
+
+    document.querySelector("#btnLoad").style="display:none;";
+
+  });
+
+
+
+});
+    </script>
+  </body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="./images/lemon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Refreshingly Simple Frontend Framework | Lemon</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="menu"></div>
+
+    <h2>Welcome to the <span id="title1"></span></h2>
+    <p>Cleanest JS Reactivity with Purest HTML/CSS Components.</p>
+
+    <pre><code>try it out for yourself ;-)</code></pre>
+
+    <input type="text" id="title2" />
+
+    <br />
+    <br />
+    <div id="loginform"></div>
+
+
+    <h4 id="lemondebugtitle"><img src="./images/lemon.png" style="height:30px;margin: -9px 3px;"> Lemon object in the background:</h4>
+    <div id="lemondebug"></div>
+
+<script src="./lemon.js"></script>
+<script>
+document.body.style="display:none;"; // show body after fully loaded
+
+LemonComponents.load({"./components/":['loginform','menu']}).then( (components) => {
+
+	// render pure HTML/CSS Components
+  Lemon.render("#loginform",components.loginform);
+  Lemon.render("#menu",components.menu);
+	console.log("components from promise",components);
+	// react to changes in UI
+	Lemon.react({
+	  inputs: {
+	    "#title2":"title",
+	    "#username":"loginForm.username",
+	    "#password":"loginForm.password"
+	  },
+	  outputs: {
+	    "#title1":"title"
+	  }
+	})
+
+	// watch for changes on properties to do something
+	Lemon.watch("title",(newValue,oldValue) => {
+	  console.log("title changed from " + oldValue + " to " + newValue);
+	})
+
+	// even works for property changes within properties (1 level deep)
+	Lemon.watch("loginForm",(newValue,oldObject) => {
+	  console.log("loginForm changed (username/password) from " + JSON.stringify(oldObject) + " to " + JSON.stringify(newValue));
+	})
+
+	// watch for changes to the Lemon object to debug
+	Lemon.watch("this",(val) => {
+	  console.log("Lemon changed :)");
+	  const copy = JSON.parse(JSON.stringify(val));
+	  delete copy['watchers'];
+	  document.querySelector("#lemondebug").innerHTML = JSON.stringify(copy);
+	})
+
+	// Use regular JavaScript to handle events rather than framework specific
+	document.querySelector("#btnLogin").addEventListener("click",() => {
+	    alert("Trying to login " + Lemon.loginForm.username + " with password " + Lemon.loginForm.password);
+	})
+
+	// initiate your properties
+	Lemon.title = 'Lemon Frontend Framework';
+	Lemon.loginForm = {'username':'','password':''};
+
+  // show body after loaded
+  document.body.style="text-align:center;padding:90px;display:auto;";
+});
+    </script>
+  </body>
+</html>

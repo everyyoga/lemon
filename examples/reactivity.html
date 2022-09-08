@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="./images/lemon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reactivity | Lemon</title>
+    <link rel="stylesheet" href="./style.css" />
+
+  </head>
+  <body>
+    <div id="menu"></div>
+
+    <h2>2 Functions for Reactivity: react & watch</h2>
+    <p>Lemon uses ids and classes rather than custom data attributes.</p>
+
+    input: <input type="text" id="title" /><br /><br />
+    #outputTitle: <span id="outputTitle"></span><br /><br />
+
+    <h4><img src="./images/lemon.png" style="height:30px;margin: -9px 3px;"> Lemon object in the background:</h4>
+    <div id="lemondebug"></div>
+
+<script src="./lemon.js"></script>
+<script>
+document.body.style="display:none;"; // show body after fully loaded
+
+// just for the menu
+LemonComponents.load({"./components/":['menu']}).then( (components) => {
+	// render pure HTML/CSS Components
+  Lemon.render("#menu",components.menu);
+});
+
+	// react to changes in UI
+	Lemon.react({
+	  inputs: {
+	    "#title":"title",
+	  },
+	  outputs: {
+	    "#outputTitle":"title"
+	  }
+	})
+
+	// watch for changes on properties to do something
+	Lemon.watch("title",(newValue,oldValue) => {
+	  console.log("title changed from " + oldValue + " to " + newValue);
+	})
+
+	// watch for changes to the Lemon object to debug
+	Lemon.watch("this",(val) => {
+	  console.log("Lemon changed :)");
+	  const copy = JSON.parse(JSON.stringify(val));
+	  delete copy['watchers'];
+	  document.querySelector("#lemondebug").innerHTML = JSON.stringify(copy);
+	})
+
+
+	// initiate your properties
+	Lemon.title = 'Lemon';
+
+  // show body after loaded
+  document.body.style="text-align:center;padding:90px;display:auto;";
+    </script>
+  </body>
+</html>
