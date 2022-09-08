@@ -1,8 +1,8 @@
 <p align="center"><a href="https://lemon.every.yoga" target="_blank" rel="noopener noreferrer"><img width="100" src="https://lemon.every.yoga/images/lemon.png" alt="Lemon logo"></a></p>
 
 <p align="center">
-## Refreshing Frontend Framework
-### Cleanest JS Reactivity &amp; Purest HTML/CSS Components
+<h2>Refreshing Frontend Framework</h2>
+<h3>Cleanest JS Reactivity &amp; Purest HTML/CSS Components</h3>
 </p>
 
 Early Stage Frontend Framework alternative to Vue/React/Angular. Join us at https://reddit.com/r/lemonjs or view the demo at https://lemon.every.yoga
