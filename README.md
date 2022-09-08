@@ -8,6 +8,10 @@
 Early Stage Frontend Framework alternative to Vue/React/Angular. Join us at https://reddit.com/r/lemonjs or view the demo at https://lemon.every.yoga
 
 ### Install & Use
+```
+wget https://raw.githubusercontent.com/everyyoga/lemon/main/lemon.js
+```
+
 Copy lemon.js in your project:
 ```
 <script src="./lemon.js"></script>
