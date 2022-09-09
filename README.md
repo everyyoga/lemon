@@ -12,22 +12,28 @@ Early Stage Frontend Framework alternative to Vue/React/Angular. Join us at http
 wget https://raw.githubusercontent.com/everyyoga/lemon/main/lemon.js
 ```
 
-Copy lemon.js in your project:
+Simple Example (see /examples for more): 
 ```
-<div id="title"></div>
-<input type="text" id="titleInput"></div>
-<script src="./lemon.js"></script>
-<script>
-Lemon.react({
-    inputs:{"#titleInput":"title"},
-    outputs:{"#title":"title"} 
-});
-Lemon.watch("title",(newValue,oldValue) => {
-    console.log('title changed to ' + newValue);
-});
-Lemon.title = 'Hello Lemon';
-</script>
+<html>
+    <body>
+        <div id="title"></div>
+        <input type="text" id="titleInput"></div>
+        <script src="./lemon.js"></script>
+        <script>
+        Lemon.react({
+            inputs:{"#titleInput":"title"},
+            outputs:{"#title":"title"} 
+        });
+        Lemon.watch("title",(newValue,oldValue) => {
+            console.log('title changed to ' + newValue);
+        });
+        Lemon.title = 'Hello Lemon';
+        </script>
+    </body>
+</html>
 ```
+
+
 
 
 
