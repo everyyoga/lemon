@@ -1,211 +1,174 @@
-var M = Object.defineProperty;
-var _ = (n, e, t) => e in n ? M(n, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : n[e] = t;
-var p = (n, e, t) => (_(n, typeof e != "symbol" ? e + "" : e, t), t);
-var j = (n, e, t) => {
-  if (e.has(n))
+var x = Object.defineProperty;
+var T = (n, t, e) => t in n ? x(n, t, { enumerable: !0, configurable: !0, writable: !0, value: e }) : n[t] = e;
+var m = (n, t, e) => (T(n, typeof t != "symbol" ? t + "" : t, e), e);
+var P = (n, t, e) => {
+  if (t.has(n))
     throw TypeError("Cannot add the same private member more than once");
-  e instanceof WeakSet ? e.add(n) : e.set(n, t);
+  t instanceof WeakSet ? t.add(n) : t.set(n, e);
 };
-function b(n, e, t) {
-  return new Proxy(t, {
-    set: function(r, o, l) {
-      const s = JSON.parse(JSON.stringify(r)), i = r[o], f = l;
-      return r[o] = l, o in n.watchers && n.watchers[e + "." + o].forEach((c) => {
-        c(f, i);
-      }), "this" in n.watchers && n.watchers.this.forEach((c) => {
-        c(n, e + "." + o);
-      }), e in n.watchers && n.watchers[e].forEach((c) => {
-        c(r, s);
+function _(n, t, e) {
+  return new Proxy(e, {
+    set: function(o, i, r) {
+      const c = JSON.parse(JSON.stringify(o)), s = o[i], a = r;
+      return o[i] = r, i in n.watchers && n.watchers[t + "." + i].forEach((l) => {
+        l(a, s);
+      }), "this" in n.watchers && n.watchers.this.forEach((l) => {
+        l(n, t + "." + i);
+      }), t in n.watchers && n.watchers[t].forEach((l) => {
+        l(o, c);
       }), !0;
     }
   });
 }
-function y(n, e, t) {
-  return new Proxy(t, {
-    set: function(r, o, l) {
-      const s = r[o], i = l;
-      return r[o] = l, o !== "length" && (o in n.watchers && n.watchers[e + "." + o].forEach((f) => {
-        f(i, s);
-      }), "this" in n.watchers && n.watchers.this.forEach((f) => {
-        f(n, e + "." + o);
-      }), e in n.watchers && n.watchers[e].forEach((f) => {
-        f(r, s);
+function j(n, t, e) {
+  return new Proxy(e, {
+    set: function(o, i, r) {
+      const c = o[i], s = r;
+      return o[i] = r, i !== "length" && (i in n.watchers && n.watchers[t + "." + i].forEach((a) => {
+        a(s, c);
+      }), "this" in n.watchers && n.watchers.this.forEach((a) => {
+        a(n, t + "." + i);
+      }), t in n.watchers && n.watchers[t].forEach((a) => {
+        a(o, c);
       })), !0;
     }
   });
 }
-function w(n) {
+function S(n) {
   return n instanceof HTMLInputElement || n instanceof HTMLTextAreaElement ? "value" : "innerText";
 }
-function T(n) {
+function L(n) {
   return n instanceof HTMLInputElement || n instanceof HTMLTextAreaElement ? "input" : "?";
 }
-function m(n) {
-  let e = {};
-  for (let t = 0; t < n.length; t++) {
-    let r = "." + n[t];
-    e[r] = n[t];
+function A(n) {
+  let t = {};
+  for (let e = 0; e < n.length; e++) {
+    let o = "." + n[e];
+    t[o] = n[e];
   }
-  return e;
+  return t;
+}
+async function b(n, t = "html") {
+  const e = {};
+  let o = [];
+  e.js = {}, e.css = {}, e.html = {};
+  const i = Object.keys(n);
+  for (let r = 0; r < i.length; r++) {
+    const c = i[r], s = n[i[r]];
+    for (let a = 0; a < s.length; a++) {
+      let l = s[a], f = ["js", "css", "html"];
+      for (let u = 0; u < f.length; u++) {
+        let w = f[u];
+        await new Promise((h, H) => {
+          fetch(c + l + "." + w).then((p) => {
+            p.status == 404 && (console.log("file " + l + "." + w + " doesn't exist!"), h()), p.text().then((E) => {
+              e[w][l] = E, h();
+            }).catch((E) => {
+              console.log("FETCH ERR", String(E)), h();
+            });
+          }).catch((p) => {
+            console.log("FETCH ERR", String(p)), h();
+          });
+        });
+      }
+    }
+  }
+  return await Promise.all(o), e[t];
+}
+async function M(n, t = "html") {
+  let e;
+  return localStorage.getItem("lemon_components") ? e = JSON.parse(localStorage.getItem("lemon_components")) : (e = await b(n, t), localStorage.setItem("lemon_components", JSON.stringify(e))), e;
 }
 const K = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  lemon_object_create: b,
-  lemon_list_create: y,
-  getReplaceProperty: w,
-  getReactiveEventName: T,
-  convertGlobalsMap: m
+  load: b,
+  loadAndCache: M
 }, Symbol.toStringTag, { value: "Module" }));
-async function P(n, e = "html") {
-  const t = { html: {}, css: {}, js: {} }, r = Object.keys(n);
-  for (let o = 0; o < r.length; o++) {
-    const l = r[o], s = n[r[o]];
-    for (let i = 0; i < s.length; i++) {
-      let f = s[i], c = ["js", "css", "html"];
-      for (let u = 0; u < c.length; u++) {
-        let h = c[u];
-        try {
-          let a = await fetch(l + f + "." + h);
-          t[h][f] = await a.text();
-        } catch (a) {
-          console.error("fetch:error", String(a));
-        }
-      }
-    }
-  }
-  return new Promise((o) => {
-    o(t[e]);
-  });
-}
-async function S(n) {
-  let e;
-  return e = await getComponents(n), e;
-}
-const v = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  load: P,
-  lemon_components: S
-}, Symbol.toStringTag, { value: "Module" }));
-function L(n) {
+function O(n) {
   return new Proxy(n, {
-    get(e, t) {
-      return t === "isProxy" ? !0 : Reflect.get(...arguments);
+    get(t, e) {
+      return e === "isProxy" ? !0 : Reflect.get(...arguments);
     },
-    set: function(e, t, r) {
-      const o = e[t], l = r;
-      e[t] = r, t in e.watchers && e.watchers[t].forEach((i) => {
-        i(l, o);
-      }), "this" in e.watchers && e.watchers.this.forEach((i) => {
-        i(e, t);
+    set: function(t, e, o) {
+      const i = t[e], r = o;
+      t[e] = o, e in t.watchers && t.watchers[e].forEach((s) => {
+        s(r, i);
+      }), "this" in t.watchers && t.watchers.this.forEach((s) => {
+        s(t, e);
       });
-      let s = (i) => i == null ? !0 : !(typeof i == "object" || typeof i == "function");
-      return e[t].isProxy || (Array.isArray(e[t]) ? e[t] = y(e, t, e[t]) : !s(e[t]) && e[t] instanceof Object && (e[t] = b(e, t, e[t]))), !0;
+      let c = (s) => s == null ? !0 : !(typeof s == "object" || typeof s == "function");
+      return t[e].isProxy || (Array.isArray(t[e]) ? t[e] = j(t, e, t[e]) : !c(t[e]) && t[e] instanceof Object && (t[e] = _(t, e, t[e]))), !0;
     }
   });
 }
-var E;
-class O {
+var d;
+class V {
   constructor() {
-    p(this, "watchers", {});
-    p(this, "route");
-    j(this, E, {});
+    m(this, "watchers", {});
+    m(this, "route");
+    P(this, d, {});
   }
-  watch(e, t) {
-    e in this.watchers || (this.watchers[e] = []), this.watchers[e].push(t);
+  watch(t, e) {
+    t in this.watchers || (this.watchers[t] = []), this.watchers[t].push(e);
   }
-  react(e = {}) {
-    let t = e.inputs, r = e.outputs;
-    t && this.inputs(t), r && this.outputs(r);
+  react(t = {}) {
+    let e = t.inputs, o = t.outputs;
+    e && this.inputs(e), o && this.outputs(o);
   }
-  inputs(e) {
-    const t = this;
-    if (!e)
+  inputs(t) {
+    const e = this;
+    if (!t)
       throw new Error("lemonGlobals not defined for inputs");
-    let r;
-    Array.isArray(e) ? r = m(e) : r = e, Object.keys(r).forEach((l) => {
-      let s = r[l], i = document.querySelector(l);
-      if (i) {
-        let f = T(i);
-        i.addEventListener(f, () => {
-          let c = i.value, u;
-          if (s.split(".").length === 2) {
-            let h = s.split(".");
-            u = t[h[0]][h[1]], c !== u && (t[h[0]][h[1]] = c);
+    let o;
+    Array.isArray(t) ? o = A(t) : o = t, Object.keys(o).forEach((r) => {
+      let c = o[r], s = document.querySelector(r);
+      if (s) {
+        let a = L(s);
+        s.addEventListener(a, () => {
+          let l = s.value, f;
+          if (c.split(".").length === 2) {
+            let u = c.split(".");
+            f = e[u[0]][u[1]], l !== f && (e[u[0]][u[1]] = l);
           } else
-            c !== u && (u = t[s], c !== u && (t[s] = c));
+            l !== f && (f = e[c], l !== f && (e[c] = l));
         });
       }
-      t.watch(s, () => {
-        document.querySelectorAll(l).forEach((f) => {
-          let c = t[s], u = w(f);
-          f[u] = c;
+      e.watch(c, () => {
+        document.querySelectorAll(r).forEach((a) => {
+          let l = e[c], f = S(a);
+          a[f] = l;
         });
       });
     });
   }
-  outputs(e) {
-    const t = this;
-    if (!e)
+  outputs(t) {
+    const e = this;
+    if (!t)
       throw new Error("lemonGlobals not defined for outputs");
-    let r;
-    Array.isArray(e) ? r = m(e) : r = e, Object.keys(r).forEach((l) => {
-      let s = r[l];
-      t.watch(s, () => {
-        document.querySelectorAll(l).forEach((f) => {
-          let c;
-          s === "this" ? c = this : c = t[s];
-          let u = w(f);
-          f[u] = c;
+    let o;
+    Array.isArray(t) ? o = A(t) : o = t, Object.keys(o).forEach((r) => {
+      let c = o[r];
+      e.watch(c, () => {
+        document.querySelectorAll(r).forEach((a) => {
+          let l;
+          c === "this" ? l = this : l = e[c];
+          let f = S(a);
+          a[f] = l;
         });
       });
     });
   }
-  render(e, t, r = {}) {
-    let o = document.querySelectorAll(e);
-    if (o.length === 0)
-      throw new Error("Parent not found: " + e);
-    o.forEach((i) => {
-      i.innerHTML = t;
+  render(t, e, o = {}) {
+    let i = document.querySelectorAll(t);
+    if (i.length === 0)
+      throw new Error("Parent not found: " + t);
+    i.forEach((s) => {
+      s.innerHTML = e;
     });
-    let l = r.inputs, s = r.outputs;
-    l && this.inputs(l), s && this.outputs(s);
+    let r = o.inputs, c = o.outputs;
+    r && this.inputs(r), c && this.outputs(c);
   }
 }
-E = new WeakMap();
-const x = L(new O());
-window.Lemon = x;
-window.LemonComponents = v;
-async function A(n, e, t, r, o, l = null, s = null) {
-  e.before && e.before(t.html), document.querySelector("#app").innerHTML += '<div id="lemon-css-holder"></div><div id="lemon-js-holder"></div>', r.watch("route", async (i, f) => {
-    if (i === f)
-      return;
-    l && l(i, f), history.pushState(null, "", r.route);
-    let c = document.querySelector(n);
-    if (!c)
-      throw new Error("Parent element not found for router. Query selector: " + n);
-    document.querySelector("#lemon-css-holder").innerHTML = "", Object.keys(t.css).forEach((a) => {
-      const d = t.css[a];
-      d && (document.querySelector("#lemon-css-holder").innerHTML += "<style>" + d + "</style>");
-    });
-    let u = o[r.route].html;
-    u ? c.innerHTML = u : console.log("The .html component for this route is undefined. Have you included the component in your components.js file?");
-    let h = o[r.route].controller;
-    if (h) {
-      let a = h.before;
-      a && await a(t.html);
-    }
-    if (document.querySelector("#lemon-js-holder").innerHTML = "", Object.keys(t.js).forEach((a) => {
-      const d = document.createElement("script");
-      t.js[a] && (d.innerHTML = t.js[a], document.querySelector("#lemon-js-holder").appendChild(d));
-    }), h) {
-      let a = h.after;
-      a && await a();
-    }
-    s && s(i, f);
-  }), e.after && e.after(), r.route = window.location.pathname;
-}
-const C = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  simpleLemonRouter: A
-}, Symbol.toStringTag, { value: "Module" }));
-
+d = new WeakMap();
+window.Lemon = O(new V());
+window.LemonComponents = K;

@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="./style.css" />
 
   </head>
-  <body style="text-align:center;padding:90px;">
+  <body>
+  <div id="app" style="opacity:0">
     <div id="menu"></div>
 
     <h2>5 Common JavaScript Snippets You Might Appreciate</h2>
@@ -42,12 +43,12 @@ document.querySelectorAll(".awesomeElement").forEach((element) => {
 
     <h4><img src="./images/lemon.png" style="height:30px;margin: -9px 3px;"> Lemon object in the background:</h4>
     <div id="lemondebug"></div>
+</div>
 
 <script src="./lemon.js"></script>
 <script>
-document.body.style="display:none;"; // show body after fully loaded
 
-LemonComponents.load({"./components/":['loginform','menu']}).then( (components) => {
+LemonComponents.loadAndCache({"./components/":['loginform','menu']}).then( (components) => {
 
 	// render pure HTML/CSS Components
   Lemon.render("#menu",components.menu);
@@ -64,7 +65,7 @@ LemonComponents.load({"./components/":['loginform','menu']}).then( (components) 
 
 
   // show body after loaded
-  document.body.style="text-align:center;padding:90px;display:auto;";
+  document.querySelector("#app").style="opacity:1;text-align:center;padding:90px;display:auto;";
 });
     </script>
   </body>

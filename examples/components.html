@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="./style.css" />
 
   </head>
-  <body style="text-align:center;padding:90px;">
+  <body>
+  <div id="app" style="opacity:0">
     <div id="menu"></div>
 
     <h2>2 Functions for Components: load & render</h2>
@@ -22,12 +23,14 @@
 
     <h4><img src="./images/lemon.png" style="height:30px;margin: -9px 3px;"> Lemon object in the background:</h4>
     <div id="lemondebug"></div>
+   <script src="instantclick.min.js" data-no-instant></script>
+<script data-no-instant>InstantClick.init();</script>
 
 <script src="./lemon.js"></script>
 <script>
-document.body.style="display:none;"; // show body after fully loaded
 
-LemonComponents.load({"./components/":['loginform','menu']}).then( (components) => {
+
+LemonComponents.loadAndCache({"./components/":['loginform','menu']}).then( (components) => {
 
 	// render pure HTML/CSS Components
   Lemon.render("#menu",components.menu);
@@ -42,8 +45,7 @@ LemonComponents.load({"./components/":['loginform','menu']}).then( (components) 
   });
 
   // show body after loaded
-  document.body.style="text-align:center;padding:90px;display:auto;";
-
+  document.querySelector("#app").style="opacity:1;text-align:center;padding:90px;display:auto;";
 
   // load demo button
   document.querySelector("#btnLoad").addEventListener('click',() => {
@@ -75,5 +77,6 @@ LemonComponents.load({"./components/":['loginform','menu']}).then( (components) 
 
 });
     </script>
+ 
   </body>
 </html>

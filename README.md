@@ -14,16 +14,21 @@ wget https://raw.githubusercontent.com/everyyoga/lemon/main/lemon.js
 
 Copy lemon.js in your project:
 ```
+<div id="title"></div>
+<input type="text" id="titleInput"></div>
 <script src="./lemon.js"></script>
 <script>
-// Lemon object available
-
-// Reactivity:
-// Lemon.react(..
-// Lemon.watch(..
-
-// Components:
-// LemonComponents.load(..
-// Lemon.render(..
+Lemon.react({
+    inputs:{"#titleInput":"title"},
+    outputs:{"#title":"title"} 
+});
+Lemon.watch("title",(newValue,oldValue) => {
+    console.log('title changed to ' + newValue);
+});
+Lemon.title = 'Hello Lemon';
 </script>
 ```
+
+
+
+

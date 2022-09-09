@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
+  	<div id="app" style="opacity:0;">
     <div id="menu"></div>
 
     <h2>Welcome to the <span id="title1"></span></h2>
@@ -24,12 +25,14 @@
 
     <h4 id="lemondebugtitle"><img src="./images/lemon.png" style="height:30px;margin: -9px 3px;"> Lemon object in the background:</h4>
     <div id="lemondebug"></div>
+    </div>
 
+<script src="instantclick.min.js" data-no-instant></script>
+<script data-no-instant>InstantClick.init();</script>
 <script src="./lemon.js"></script>
 <script>
-document.body.style="display:none;"; // show body after fully loaded
 
-LemonComponents.load({"./components/":['loginform','menu']}).then( (components) => {
+LemonComponents.loadAndCache({"./components/":['loginform','menu']}).then( (components) => {
 
 	// render pure HTML/CSS Components
   Lemon.render("#loginform",components.loginform);
@@ -75,8 +78,10 @@ LemonComponents.load({"./components/":['loginform','menu']}).then( (components) 
 	Lemon.loginForm = {'username':'','password':''};
 
   // show body after loaded
-  document.body.style="text-align:center;padding:90px;display:auto;";
+  document.querySelector("#app").style="opacity:1;text-align:center;padding:90px;display:auto;";
 });
     </script>
+    
+    
   </body>
 </html>
