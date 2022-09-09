@@ -35,7 +35,7 @@ Simple Example (see /examples for more):
 ```
 
 ### Running the /examples Folder
-For the examples folder you need a server, otherwise you'll receive a message like 'CORS policy: Cross origin requests are only supported for protocol schemes: http, data, chrome, chrome-extension, chrome-untrusted, https'. 
+For the examples folder you'll need a server, otherwise you'll receive a message like 'CORS policy: Cross origin requests are only supported for protocol schemes: http, data, ..'. 
 
 ```
 # example simple server setup
