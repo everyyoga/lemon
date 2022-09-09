@@ -14,6 +14,7 @@ wget https://raw.githubusercontent.com/everyyoga/lemon/main/lemon.js
 
 Simple Example (see /examples for more): 
 ```
+<!-- index.html -->
 <html>
     <body>
         <div id="title"></div>
