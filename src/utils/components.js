@@ -1,3 +1,4 @@
+import 'whatwg-fetch';
 
 // load HTML/CSS components with Ajax. relativePaths based on public/components by default.
 // dataType='html' or 'css','js'
