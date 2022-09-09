@@ -1,0 +1,9 @@
+{
+  "name": "LemonJS",
+  "version": "1.0.0",
+  "source": "./Lemon.js",
+  "main": "../dist-lib/lemon.js",
+  "devDependencies": {
+    "parcel": "^2.7.0"
+  }
+}
