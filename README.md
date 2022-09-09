@@ -34,6 +34,17 @@ Simple Example (see /examples for more):
 </html>
 ```
 
+### Running the /examples Folder
+For the examples folder you need a server, otherwise you'll receive a message like 'CORS policy: Cross origin requests are only supported for protocol schemes: http, data, chrome, chrome-extension, chrome-untrusted, https'. 
+
+```
+# example simple server setup
+npm install -g live-server
+cd examples
+live-server --port=8888 --no-browser
+# You should see something like: Serving "lemon/examples" at http://127.0.0.1:8888
+# Browse to http://127.0.0.1:8888
+```
 
 
 
