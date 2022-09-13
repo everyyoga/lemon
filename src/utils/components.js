@@ -1,16 +1,20 @@
 import 'whatwg-fetch';
+import MD5 from "crypto-js/md5";
 
 // load HTML/CSS components with Ajax. relativePaths based on public/components by default.
 // dataType='html' or 'css','js' or 'all' to return keys with values
 // getComponents({"./components":['basic-awesome-elements'], "./": [''] })
 export async function load(dirRelativePathDict, cache=false, dataType='html') {
 
+  let cacheId = MD5(JSON.stringify(dirRelativePathDict)).toString();
+    console.log("cacheId",cacheId);
+
   // tries to load from cache
-  if(cache && localStorage.getItem("lemon_components")) {
+  if(cache && localStorage.getItem("lemon_"+ cacheId)) {
         if(dataType==='all') {
-          return JSON.parse(localStorage.getItem("lemon_components"));
+          return JSON.parse(localStorage.getItem("lemon_" + cacheId));
         } else {
-          return (JSON.parse(localStorage.getItem("lemon_components")))[dataType];
+          return (JSON.parse(localStorage.getItem("lemon_" + cacheId)))[dataType];
         }
   } 
 
@@ -61,7 +65,7 @@ export async function load(dirRelativePathDict, cache=false, dataType='html') {
   await Promise.all(promises);
   if(cache) {
     // sets cache if empty
-    localStorage.setItem("lemon_components",JSON.stringify(fetchedComponents));
+    localStorage.setItem("lemon_" + cacheId,JSON.stringify(fetchedComponents));
   }
 
     if(dataType==='all') {
