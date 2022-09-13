@@ -30,7 +30,7 @@
 
 
 // just for the menu
-LemonComponents.loadAndCache({"./components/":['menu']}).then( (components) => {
+LemonComponents.load({"./components/":['menu']},true).then( (components) => {
 	// render pure HTML/CSS Components
   Lemon.render("#menu",components.menu);
 });

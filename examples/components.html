@@ -30,11 +30,12 @@
 <script>
 
 
-LemonComponents.loadAndCache({"./components/":['loginform','menu']}).then( (components) => {
+LemonComponents.load({"./components/":['loginform','menu']},true).then( (components) => {
+
+  console.log("components from promise",components);
 
 	// render pure HTML/CSS Components
   Lemon.render("#menu",components.menu);
-	console.log("components from promise",components);
 
   // watch for changes to the Lemon object to debug
   Lemon.watch("this",(val) => {
@@ -49,22 +50,25 @@ LemonComponents.loadAndCache({"./components/":['loginform','menu']}).then( (comp
 
   // load demo button
   document.querySelector("#btnLoad").addEventListener('click',() => {
-    Lemon.render("#loginform",components.loginform);
+    Lemon.render("#loginform",components.loginform, () => {
+          // react to changes in UI
+        	Lemon.react({
+        	  inputs: {
+        	    "#username":"loginForm.username",
+        	    "#password":"loginForm.password"
+        	  }
+        	});
 
-    // react to changes in UI
-  	Lemon.react({
-  	  inputs: {
-  	    "#title2":"title",
-  	    "#username":"loginForm.username",
-  	    "#password":"loginForm.password"
-  	  }
-  	});
+          // Use regular JavaScript to handle events rather than framework specific
+        	document.querySelector("#btnLogin").addEventListener("click",() => {
+        	    alert("Trying to login " + Lemon.loginForm.username + " with password " + Lemon.loginForm.password);
+        	});
+
+    });
 
 
-  	// Use regular JavaScript to handle events rather than framework specific
-  	document.querySelector("#btnLogin").addEventListener("click",() => {
-  	    alert("Trying to login " + Lemon.loginForm.username + " with password " + Lemon.loginForm.password);
-  	});
+
+
 
   	// initiate your properties
   	Lemon.loginForm = {'username':'','password':''};
@@ -77,6 +81,6 @@ LemonComponents.loadAndCache({"./components/":['loginform','menu']}).then( (comp
 
 });
     </script>
- 
+
   </body>
 </html>

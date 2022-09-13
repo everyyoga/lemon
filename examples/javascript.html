@@ -48,7 +48,7 @@ document.querySelectorAll(".awesomeElement").forEach((element) => {
 <script src="./lemon.js"></script>
 <script>
 
-LemonComponents.loadAndCache({"./components/":['loginform','menu']}).then( (components) => {
+LemonComponents.load({"./components/":['loginform','menu']},true).then( (components) => {
 
 	// render pure HTML/CSS Components
   Lemon.render("#menu",components.menu);
