@@ -191,26 +191,28 @@ class LemonApp {
   }
 
   // Simply render HTML component to querySelector(s) and optionally execute function afterwards
-  render(querySelector, htmlComponent, renderInputsOutputs={}) {
+  render(querySelector, htmlComponent, func=null) {
     const thiz = this; // to reference your Lemon inside other scopes
-    let parents = document.querySelectorAll(querySelector);
-    if(parents.length===0) {
-        throw new Error("Parent not found: " + querySelector);
-    } else {
-      parents.forEach((parent) => {
-        parent.innerHTML = htmlComponent;
-      })
-    }
+    return new Promise((resolve, reject) => {
+        // make whole thing async
+        setTimeout(async() => {
+            let parents = document.querySelectorAll(querySelector);
+            if(parents.length===0) {
+                reject("Parent not found: " + querySelector);
+                return;
+            } else {
+              parents.forEach((parent) => {
+                parent.innerHTML = htmlComponent;
+              })
+            }
 
-    let inputsData = renderInputsOutputs['inputs'];
-    let outputsData = renderInputsOutputs['outputs'];
-    if(inputsData) {
-      this.inputs(inputsData); // equivalent to Lemon.inputs({".count":"count"})
-    }
+            if(func) {
+                await func();
+            }
 
-    if(outputsData) {
-      this.outputs(outputsData); // equivalent to Lemon.outputs({".count":"count"})
-    }
+            resolve();
+        },0);
+    });
   }
 }
 

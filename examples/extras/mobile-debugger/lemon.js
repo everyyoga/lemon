@@ -1,7 +1,7 @@
-var H = Object.defineProperty;
-var F = (e, t, r) => t in e ? H(e, t, { enumerable: !0, configurable: !0, writable: !0, value: r }) : e[t] = r;
-var g = (e, t, r) => (F(e, typeof t != "symbol" ? t + "" : t, r), r);
-var S = (e, t, r) => {
+var I = Object.defineProperty;
+var F = (e, t, r) => t in e ? I(e, t, { enumerable: !0, configurable: !0, writable: !0, value: r }) : e[t] = r;
+var _ = (e, t, r) => (F(e, typeof t != "symbol" ? t + "" : t, r), r);
+var O = (e, t, r) => {
   if (t.has(e))
     throw TypeError("Cannot add the same private member more than once");
   t instanceof WeakSet ? t.add(e) : t.set(e, r);
@@ -34,13 +34,13 @@ function M(e, t, r) {
     }
   });
 }
-function j(e) {
+function S(e) {
   return e instanceof HTMLInputElement || e instanceof HTMLTextAreaElement ? "value" : "innerText";
 }
 function q(e) {
   return e instanceof HTMLInputElement || e instanceof HTMLTextAreaElement ? "input" : "?";
 }
-function R(e) {
+function j(e) {
   let t = {};
   for (let r = 0; r < e.length; r++) {
     let n = "." + e[r];
@@ -48,18 +48,18 @@ function R(e) {
   }
   return t;
 }
-var c = typeof globalThis < "u" && globalThis || typeof self < "u" && self || typeof c < "u" && c, h = {
-  searchParams: "URLSearchParams" in c,
-  iterable: "Symbol" in c && "iterator" in Symbol,
-  blob: "FileReader" in c && "Blob" in c && function() {
+var u = typeof globalThis < "u" && globalThis || typeof self < "u" && self || typeof u < "u" && u, h = {
+  searchParams: "URLSearchParams" in u,
+  iterable: "Symbol" in u && "iterator" in Symbol,
+  blob: "FileReader" in u && "Blob" in u && function() {
     try {
       return new Blob(), !0;
     } catch {
       return !1;
     }
   }(),
-  formData: "FormData" in c,
-  arrayBuffer: "ArrayBuffer" in c
+  formData: "FormData" in u,
+  arrayBuffer: "ArrayBuffer" in u
 };
 function V(e) {
   return e && DataView.prototype.isPrototypeOf(e);
@@ -83,10 +83,10 @@ function m(e) {
     throw new TypeError('Invalid character in header field name: "' + e + '"');
   return e.toLowerCase();
 }
-function P(e) {
+function x(e) {
   return typeof e != "string" && (e = String(e)), e;
 }
-function O(e) {
+function P(e) {
   var t = {
     next: function() {
       var r = e.shift();
@@ -97,8 +97,8 @@ function O(e) {
     return t;
   }), t;
 }
-function u(e) {
-  this.map = {}, e instanceof u ? e.forEach(function(t, r) {
+function c(e) {
+  this.map = {}, e instanceof c ? e.forEach(function(t, r) {
     this.append(r, t);
   }, this) : Array.isArray(e) ? e.forEach(function(t) {
     this.append(t[0], t[1]);
@@ -106,52 +106,52 @@ function u(e) {
     this.append(t, e[t]);
   }, this);
 }
-u.prototype.append = function(e, t) {
-  e = m(e), t = P(t);
+c.prototype.append = function(e, t) {
+  e = m(e), t = x(t);
   var r = this.map[e];
   this.map[e] = r ? r + ", " + t : t;
 };
-u.prototype.delete = function(e) {
+c.prototype.delete = function(e) {
   delete this.map[m(e)];
 };
-u.prototype.get = function(e) {
+c.prototype.get = function(e) {
   return e = m(e), this.has(e) ? this.map[e] : null;
 };
-u.prototype.has = function(e) {
+c.prototype.has = function(e) {
   return this.map.hasOwnProperty(m(e));
 };
-u.prototype.set = function(e, t) {
-  this.map[m(e)] = P(t);
+c.prototype.set = function(e, t) {
+  this.map[m(e)] = x(t);
 };
-u.prototype.forEach = function(e, t) {
+c.prototype.forEach = function(e, t) {
   for (var r in this.map)
     this.map.hasOwnProperty(r) && e.call(t, this.map[r], r, this);
 };
-u.prototype.keys = function() {
+c.prototype.keys = function() {
   var e = [];
   return this.forEach(function(t, r) {
     e.push(r);
-  }), O(e);
+  }), P(e);
 };
-u.prototype.values = function() {
+c.prototype.values = function() {
   var e = [];
   return this.forEach(function(t) {
     e.push(t);
-  }), O(e);
+  }), P(e);
 };
-u.prototype.entries = function() {
+c.prototype.entries = function() {
   var e = [];
   return this.forEach(function(t, r) {
     e.push([r, t]);
-  }), O(e);
+  }), P(e);
 };
-h.iterable && (u.prototype[Symbol.iterator] = u.prototype.entries);
-function B(e) {
+h.iterable && (c.prototype[Symbol.iterator] = c.prototype.entries);
+function g(e) {
   if (e.bodyUsed)
     return Promise.reject(new TypeError("Already read"));
   e.bodyUsed = !0;
 }
-function U(e) {
+function R(e) {
   return new Promise(function(t, r) {
     e.onload = function() {
       t(e.result);
@@ -160,12 +160,12 @@ function U(e) {
     };
   });
 }
-function N(e) {
-  var t = new FileReader(), r = U(t);
+function z(e) {
+  var t = new FileReader(), r = R(t);
   return t.readAsArrayBuffer(e), r;
 }
-function z(e) {
-  var t = new FileReader(), r = U(t);
+function N(e) {
+  var t = new FileReader(), r = R(t);
   return t.readAsText(e), r;
 }
 function J(e) {
@@ -179,11 +179,11 @@ function D(e) {
   var t = new Uint8Array(e.byteLength);
   return t.set(new Uint8Array(e)), t.buffer;
 }
-function L() {
+function U() {
   return this.bodyUsed = !1, this._initBody = function(e) {
     this.bodyUsed = this.bodyUsed, this._bodyInit = e, e ? typeof e == "string" ? this._bodyText = e : h.blob && Blob.prototype.isPrototypeOf(e) ? this._bodyBlob = e : h.formData && FormData.prototype.isPrototypeOf(e) ? this._bodyFormData = e : h.searchParams && URLSearchParams.prototype.isPrototypeOf(e) ? this._bodyText = e.toString() : h.arrayBuffer && h.blob && V(e) ? (this._bodyArrayBuffer = D(e.buffer), this._bodyInit = new Blob([this._bodyArrayBuffer])) : h.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(e) || K(e)) ? this._bodyArrayBuffer = D(e) : this._bodyText = e = Object.prototype.toString.call(e) : this._bodyText = "", this.headers.get("content-type") || (typeof e == "string" ? this.headers.set("content-type", "text/plain;charset=UTF-8") : this._bodyBlob && this._bodyBlob.type ? this.headers.set("content-type", this._bodyBlob.type) : h.searchParams && URLSearchParams.prototype.isPrototypeOf(e) && this.headers.set("content-type", "application/x-www-form-urlencoded;charset=UTF-8"));
   }, h.blob && (this.blob = function() {
-    var e = B(this);
+    var e = g(this);
     if (e)
       return e;
     if (this._bodyBlob)
@@ -195,7 +195,7 @@ function L() {
     return Promise.resolve(new Blob([this._bodyText]));
   }, this.arrayBuffer = function() {
     if (this._bodyArrayBuffer) {
-      var e = B(this);
+      var e = g(this);
       return e || (ArrayBuffer.isView(this._bodyArrayBuffer) ? Promise.resolve(
         this._bodyArrayBuffer.buffer.slice(
           this._bodyArrayBuffer.byteOffset,
@@ -203,13 +203,13 @@ function L() {
         )
       ) : Promise.resolve(this._bodyArrayBuffer));
     } else
-      return this.blob().then(N);
+      return this.blob().then(z);
   }), this.text = function() {
-    var e = B(this);
+    var e = g(this);
     if (e)
       return e;
     if (this._bodyBlob)
-      return z(this._bodyBlob);
+      return N(this._bodyBlob);
     if (this._bodyArrayBuffer)
       return Promise.resolve(J(this._bodyArrayBuffer));
     if (this._bodyFormData)
@@ -234,10 +234,10 @@ function w(e, t) {
   if (e instanceof w) {
     if (e.bodyUsed)
       throw new TypeError("Already read");
-    this.url = e.url, this.credentials = e.credentials, t.headers || (this.headers = new u(e.headers)), this.method = e.method, this.mode = e.mode, this.signal = e.signal, !r && e._bodyInit != null && (r = e._bodyInit, e.bodyUsed = !0);
+    this.url = e.url, this.credentials = e.credentials, t.headers || (this.headers = new c(e.headers)), this.method = e.method, this.mode = e.mode, this.signal = e.signal, !r && e._bodyInit != null && (r = e._bodyInit, e.bodyUsed = !0);
   } else
     this.url = String(e);
-  if (this.credentials = t.credentials || this.credentials || "same-origin", (t.headers || !this.headers) && (this.headers = new u(t.headers)), this.method = $(t.method || this.method || "GET"), this.mode = t.mode || this.mode || null, this.signal = t.signal || this.signal, this.referrer = null, (this.method === "GET" || this.method === "HEAD") && r)
+  if (this.credentials = t.credentials || this.credentials || "same-origin", (t.headers || !this.headers) && (this.headers = new c(t.headers)), this.method = $(t.method || this.method || "GET"), this.mode = t.mode || this.mode || null, this.signal = t.signal || this.signal, this.referrer = null, (this.method === "GET" || this.method === "HEAD") && r)
     throw new TypeError("Body not allowed for GET or HEAD requests");
   if (this._initBody(r), (this.method === "GET" || this.method === "HEAD") && (t.cache === "no-store" || t.cache === "no-cache")) {
     var n = /([?&])_=[^&]*/;
@@ -262,7 +262,7 @@ function W(e) {
   }), t;
 }
 function Y(e) {
-  var t = new u(), r = e.replace(/\r?\n[\t ]+/g, " ");
+  var t = new c(), r = e.replace(/\r?\n[\t ]+/g, " ");
   return r.split("\r").map(function(n) {
     return n.indexOf(`
 `) === 0 ? n.substr(1, n.length) : n;
@@ -274,18 +274,18 @@ function Y(e) {
     }
   }), t;
 }
-L.call(w.prototype);
+U.call(w.prototype);
 function p(e, t) {
   if (!(this instanceof p))
     throw new TypeError('Please use the "new" operator, this DOM object constructor cannot be called as a function.');
-  t || (t = {}), this.type = "default", this.status = t.status === void 0 ? 200 : t.status, this.ok = this.status >= 200 && this.status < 300, this.statusText = t.statusText === void 0 ? "" : "" + t.statusText, this.headers = new u(t.headers), this.url = t.url || "", this._initBody(e);
+  t || (t = {}), this.type = "default", this.status = t.status === void 0 ? 200 : t.status, this.ok = this.status >= 200 && this.status < 300, this.statusText = t.statusText === void 0 ? "" : "" + t.statusText, this.headers = new c(t.headers), this.url = t.url || "", this._initBody(e);
 }
-L.call(p.prototype);
+U.call(p.prototype);
 p.prototype.clone = function() {
   return new p(this._bodyInit, {
     status: this.status,
     statusText: this.statusText,
-    headers: new u(this.headers),
+    headers: new c(this.headers),
     url: this.url
   });
 };
@@ -299,7 +299,7 @@ p.redirect = function(e, t) {
     throw new RangeError("Invalid status code");
   return new p(null, { status: t, headers: { location: e } });
 };
-var b = c.DOMException;
+var b = u.DOMException;
 try {
   new b();
 } catch {
@@ -309,7 +309,7 @@ try {
     this.stack = n.stack;
   }, b.prototype = Object.create(Error.prototype), b.prototype.constructor = b;
 }
-function I(e, t) {
+function L(e, t) {
   return new Promise(function(r, n) {
     var s = new w(e, t);
     if (s.signal && s.signal.aborted)
@@ -344,13 +344,13 @@ function I(e, t) {
     };
     function l(i) {
       try {
-        return i === "" && c.location.href ? c.location.href : i;
+        return i === "" && u.location.href ? u.location.href : i;
       } catch {
         return i;
       }
     }
-    o.open(s.method, l(s.url), !0), s.credentials === "include" ? o.withCredentials = !0 : s.credentials === "omit" && (o.withCredentials = !1), "responseType" in o && (h.blob ? o.responseType = "blob" : h.arrayBuffer && s.headers.get("Content-Type") && s.headers.get("Content-Type").indexOf("application/octet-stream") !== -1 && (o.responseType = "arraybuffer")), t && typeof t.headers == "object" && !(t.headers instanceof u) ? Object.getOwnPropertyNames(t.headers).forEach(function(i) {
-      o.setRequestHeader(i, P(t.headers[i]));
+    o.open(s.method, l(s.url), !0), s.credentials === "include" ? o.withCredentials = !0 : s.credentials === "omit" && (o.withCredentials = !1), "responseType" in o && (h.blob ? o.responseType = "blob" : h.arrayBuffer && s.headers.get("Content-Type") && s.headers.get("Content-Type").indexOf("application/octet-stream") !== -1 && (o.responseType = "arraybuffer")), t && typeof t.headers == "object" && !(t.headers instanceof c) ? Object.getOwnPropertyNames(t.headers).forEach(function(i) {
+      o.setRequestHeader(i, x(t.headers[i]));
     }) : s.headers.forEach(function(i, f) {
       o.setRequestHeader(f, i);
     }), s.signal && (s.signal.addEventListener("abort", a), o.onreadystatechange = function() {
@@ -358,25 +358,23 @@ function I(e, t) {
     }), o.send(typeof s._bodyInit > "u" ? null : s._bodyInit);
   });
 }
-I.polyfill = !0;
-c.fetch || (c.fetch = I, c.Headers = u, c.Request = w, c.Response = p);
-async function Q(e, t = !1, r = "html") {
-  if (t && localStorage.getItem("lemon_components"))
-    return r === "all" ? JSON.parse(localStorage.getItem("lemon_components")) : JSON.parse(localStorage.getItem("lemon_components"))[r];
-  const n = {};
-  let s = [];
-  n.js = {}, n.css = {}, n.html = {};
-  const o = Object.keys(e);
-  for (let a = 0; a < o.length; a++) {
-    const l = o[a], i = e[o[a]];
-    for (let f = 0; f < i.length; f++) {
-      let d = i[f], y = ["js", "css", "html"];
-      for (let T = 0; T < y.length; T++) {
-        let _ = y[T];
+L.polyfill = !0;
+u.fetch || (u.fetch = L, u.Headers = c, u.Request = w, u.Response = p);
+async function H(e, t = "html") {
+  const r = {};
+  let n = [];
+  r.js = {}, r.css = {}, r.html = {};
+  const s = Object.keys(e);
+  for (let o = 0; o < s.length; o++) {
+    const a = s[o], l = e[s[o]];
+    for (let i = 0; i < l.length; i++) {
+      let f = l[i], d = ["js", "css", "html"];
+      for (let y = 0; y < d.length; y++) {
+        let T = d[y];
         await new Promise((E, re) => {
-          fetch(l + d + "." + _).then((A) => {
-            A.status == 404 && (console.log("file " + d + "." + _ + " doesn't exist!"), E()), A.text().then((v) => {
-              n[_][d] = v, E();
+          fetch(a + f + "." + T).then((A) => {
+            A.status == 404 && (console.log("file " + f + "." + T + " doesn't exist!"), E()), A.text().then((v) => {
+              r[T][f] = v, E();
             }).catch((v) => {
               console.log("FETCH ERR", String(v)), E();
             });
@@ -387,11 +385,16 @@ async function Q(e, t = !1, r = "html") {
       }
     }
   }
-  return await Promise.all(s), t && localStorage.setItem("lemon_components", JSON.stringify(n)), r === "all" ? n : n[r];
+  return await Promise.all(n), r[t];
+}
+async function Q(e, t = "html") {
+  let r;
+  return localStorage.getItem("lemon_components") ? r = JSON.parse(localStorage.getItem("lemon_components")) : (r = await H(e, t), localStorage.setItem("lemon_components", JSON.stringify(r))), r;
 }
 const k = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  load: Q
+  load: H,
+  loadAndCache: Q
 }, Symbol.toStringTag, { value: "Module" }));
 function ee(e) {
   return new Proxy(e, {
@@ -410,12 +413,12 @@ function ee(e) {
     }
   });
 }
-var x;
+var B;
 class te {
   constructor() {
-    g(this, "watchers", {});
-    g(this, "route");
-    S(this, x, {});
+    _(this, "watchers", {});
+    _(this, "route");
+    O(this, B, {});
   }
   watch(t, r) {
     t in this.watchers || (this.watchers[t] = []), this.watchers[t].push(r);
@@ -429,7 +432,7 @@ class te {
     if (!t)
       throw new Error("lemonGlobals not defined for inputs");
     let n;
-    Array.isArray(t) ? n = R(t) : n = t, Object.keys(n).forEach((o) => {
+    Array.isArray(t) ? n = j(t) : n = t, Object.keys(n).forEach((o) => {
       let a = n[o], l = document.querySelector(o);
       if (l) {
         let i = q(l);
@@ -444,7 +447,7 @@ class te {
       }
       r.watch(a, () => {
         document.querySelectorAll(o).forEach((i) => {
-          let f = r[a], d = j(i);
+          let f = r[a], d = S(i);
           i[d] = f;
         });
       });
@@ -455,34 +458,29 @@ class te {
     if (!t)
       throw new Error("lemonGlobals not defined for outputs");
     let n;
-    Array.isArray(t) ? n = R(t) : n = t, Object.keys(n).forEach((o) => {
+    Array.isArray(t) ? n = j(t) : n = t, Object.keys(n).forEach((o) => {
       let a = n[o];
       r.watch(a, () => {
         document.querySelectorAll(o).forEach((i) => {
           let f;
           a === "this" ? f = this : f = r[a];
-          let d = j(i);
+          let d = S(i);
           i[d] = f;
         });
       });
     });
   }
-  render(t, r, n = null) {
-    return new Promise((s, o) => {
-      setTimeout(async () => {
-        let a = document.querySelectorAll(t);
-        if (a.length === 0) {
-          o("Parent not found: " + t);
-          return;
-        } else
-          a.forEach((l) => {
-            l.innerHTML = r;
-          });
-        n && await n(), s();
-      }, 0);
+  render(t, r, n = {}) {
+    let s = document.querySelectorAll(t);
+    if (s.length === 0)
+      throw new Error("Parent not found: " + t);
+    s.forEach((l) => {
+      l.innerHTML = r;
     });
+    let o = n.inputs, a = n.outputs;
+    o && this.inputs(o), a && this.outputs(a);
   }
 }
-x = new WeakMap();
+B = new WeakMap();
 window.Lemon = ee(new te());
 window.LemonComponents = k;
